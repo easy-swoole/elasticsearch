@@ -14,6 +14,15 @@ class Client
      */
     function index(Index $index)
     {
+        /*
+         * 构建请求
+         */
+    }
 
+    protected function request()
+    {
+        /*
+         * 发起请求
+         */
     }
 }
