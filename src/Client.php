@@ -5,9 +5,9 @@ namespace EasySwoole\ElasticSearch;
 
 
 use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
+use EasySwoole\ElasticSearch\RequestBean\Get;
 use EasySwoole\ElasticSearch\RequestBean\Index;
 use EasySwoole\HttpClient\Bean\Response;
-use EasySwoole\HttpClient\HttpClient;
 
 class Client
 {
@@ -23,28 +23,29 @@ class Client
      * https://github.com/elastic/elasticsearch-php/blob/master/src/Elasticsearch/Client.php
      * 的职能
      */
-    function index(Index $index): Response
+    public function index(Index $bean): Response
     {
         /*
          * 构建请求
          */
-        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Index($index);
-        return $this->request($endpoint);
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Index();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setId($bean->getId());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArray(null, ['index', 'type', 'id', 'body']));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    protected function request(AbstractEndpoint $endpoint)
+    public function get(Get $bean)
     {
-        /*
-         * 发起请求
-         */
-        $url = 'http://' . $this->elasticSearch->getConfig()->getHost() . ':' . $this->elasticSearch->getConfig()->getPort() . $endpoint->getUri();
-        $httpClient = new HttpClient($url);
-        return $httpClient->post($endpoint->getBody(), ['Content-Type' => 'application/json']);
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Get();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setId($bean->getId());
+        $endpoint->setParams($bean->toArray(null, ['index', 'type', 'id']));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    protected function getUri()
-    {
-        return $this->uri;
-    }
 
 }

@@ -10,26 +10,24 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 
 
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
+use EasySwoole\HttpClient\HttpClient;
 
 class Index extends AbstractEndpoint
 {
-    private $bean;
 
-    public function __construct(\EasySwoole\ElasticSearch\RequestBean\Index $bean)
+    public function getMethod()
     {
-        $this->bean = $bean;
+        return HttpClient::METHOD_POST;
     }
 
     public function getUri()
     {
-        if ($this->bean->getIndex() == null) {
-            throw new RuntimeException(
-                'index is required for index'
-            );
+        if ($this->getIndex() == null) {
+            throw new RuntimeException('index is required for index');
         }
-        $index = $this->bean->getIndex();
-        $id = $this->bean->getId() ?? null;
-        $type = $this->bean->getType() ?? null;
+        $index = $this->getIndex();
+        $id = $this->getId() ?? null;
+        $type = $this->getType() ?? null;
         if (isset($type)) {
             @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
         }
@@ -46,8 +44,4 @@ class Index extends AbstractEndpoint
         return "/$index/_doc";
     }
 
-    public function getBody()
-    {
-        return $this->bean->getBody();
-    }
 }

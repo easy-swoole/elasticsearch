@@ -1,10 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: xcg
+ * User: mayn
  * Date: 2019/12/9
- * Time: 17:59
+ * Time: 23:20
  */
+
 require_once 'vendor/autoload.php';
 
 $config = new \EasySwoole\ElasticSearch\Config();
@@ -12,15 +13,14 @@ $config->setHost('192.168.17.3');
 $config->setPort(9200);
 
 
-$bean = new \EasySwoole\ElasticSearch\RequestBean\Index();
+$bean = new \EasySwoole\ElasticSearch\RequestBean\Get();
 $bean->setIndex('my-index');
-$bean->setType('my-type');
+//$bean->setType('my-type');
 $bean->setId('my-id');
-$bean->setBody(['test-field' => 'abd']);
 
 
 \Swoole\Coroutine::create(function () use ($config, $bean) {
     $obj = new \EasySwoole\ElasticSearch\ElasticSearch($config);
-    $response = $obj->client()->index($bean);
+    $response = $obj->client()->get($bean);
     print_r($response->getBody());
 });
