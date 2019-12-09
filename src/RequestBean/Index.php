@@ -239,7 +239,7 @@ class Index extends SplBean
      */
     public function getBody()
     {
-        return $this->body;
+        return json_encode($this->body);
     }
 
     /**

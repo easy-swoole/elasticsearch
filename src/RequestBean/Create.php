@@ -4,7 +4,9 @@
 namespace EasySwoole\ElasticSearch\RequestBean;
 
 
-class CreateBean
+use EasySwoole\Spl\SplBean;
+
+class Create extends SplBean
 {
 
 }
