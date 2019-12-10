@@ -71,7 +71,7 @@ abstract class AbstractEndpoint
 
     public function getBody()
     {
-        return $this->body;
+        return empty($this->body) ? null : json_encode($this->body);
     }
 
     public function setParams(array $params)

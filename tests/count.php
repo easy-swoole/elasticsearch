@@ -1,9 +1,9 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: mayn
- * Date: 2019/12/9
- * Time: 23:20
+ * User: xcg
+ * Date: 2019/12/10
+ * Time: 11:55
  */
 
 require_once 'vendor/autoload.php';
@@ -13,14 +13,14 @@ $config->setHost('192.168.174.130');
 $config->setPort(9200);
 
 
-$bean = new \EasySwoole\ElasticSearch\RequestBean\Get();
-$bean->setIndex('my-index');
-//$bean->setType('my-type');
-$bean->setId('my-id');
+$bean = new \EasySwoole\ElasticSearch\RequestBean\Count();
+$bean->setIndex('my-index-2');
+$bean->setType('my-type-2');
+$bean->setBody(['query' => ['match' => ['test-field-2' => 'abddsadasda']]]);
 
 
 \Swoole\Coroutine::create(function () use ($config, $bean) {
     $obj = new \EasySwoole\ElasticSearch\ElasticSearch($config);
-    $response = $obj->client()->get($bean);
+    $response = $obj->client()->count($bean);
     print_r($response->getBody());
 });

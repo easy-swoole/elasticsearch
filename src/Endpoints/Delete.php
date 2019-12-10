@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/9
- * Time: 17:04
+ * Date: 2019/12/10
+ * Time: 15:02
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
@@ -12,45 +12,33 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
 use EasySwoole\HttpClient\HttpClient;
 
-class Index extends AbstractEndpoint
+class Delete extends AbstractEndpoint
 {
-
     public function getMethod()
     {
-        return HttpClient::METHOD_POST;
+        return HttpClient::METHOD_DELETE;
     }
 
     public function getUri()
     {
-        if ($this->getIndex() == null) {
-            throw new RuntimeException('index is required for index');
+        if (empty($this->getId())) {
+            throw new RuntimeException('id is required for delete');
+        }
+        $id = $this->getId();
+        if (empty($this->getIndex())) {
+            throw new RuntimeException('index is required for delete');
         }
         $index = $this->getIndex();
-        $id = $this->getId() ?? null;
         $type = $this->getType() ?? null;
         if (isset($type)) {
             @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
         }
-
-        if (isset($type) && isset($id)) {
+        if (isset($type)) {
             return "/$index/$type/$id";
         }
-        if (isset($id)) {
-            return "/$index/_doc/$id";
-        }
-        if (isset($type)) {
-            return "/$index/$type";
-        }
-        return "/$index/_doc";
+        return "/$index/_doc/$id";
     }
 
-    public function setBody($body)
-    {
-        if (!empty($body)) {
-            $this->body = $body;
-        }
-        return $this;
-    }
 
     public function setId(string $id)
     {
@@ -59,4 +47,5 @@ class Index extends AbstractEndpoint
         }
         return $this;
     }
+
 }

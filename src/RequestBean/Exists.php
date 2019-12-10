@@ -4,9 +4,7 @@
 namespace EasySwoole\ElasticSearch\RequestBean;
 
 
-use EasySwoole\Spl\SplBean;
-
-class Exists extends SplBean
+class Exists extends AbstractBean
 {
     protected $id;
     protected $index;

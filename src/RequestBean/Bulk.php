@@ -2,44 +2,26 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/9
- * Time: 18:37
+ * Date: 2019/12/10
+ * Time: 9:39
  */
 
 namespace EasySwoole\ElasticSearch\RequestBean;
 
 
-class Get extends AbstractBean
+class Bulk extends AbstractBean
 {
-    protected $id;
     protected $index;
     protected $type;
-    protected $stored_fields;
-    protected $preference;
-    protected $realtime;
+    protected $wait_for_active_shards;
     protected $refresh;
     protected $routing;
+    protected $timeout;
     protected $_source;
     protected $_source_excludes;
     protected $_source_includes;
-    protected $version;
-    protected $version_type;
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id): void
-    {
-        $this->id = $id;
-    }
+    protected $pipeline;
+    protected $body;
 
     /**
      * @return mixed
@@ -76,49 +58,17 @@ class Get extends AbstractBean
     /**
      * @return mixed
      */
-    public function getStoredFields()
+    public function getWaitForActiveShards()
     {
-        return $this->stored_fields;
+        return $this->wait_for_active_shards;
     }
 
     /**
-     * @param mixed $stored_fields
+     * @param mixed $wait_for_active_shards
      */
-    public function setStoredFields($stored_fields): void
+    public function setWaitForActiveShards($wait_for_active_shards): void
     {
-        $this->stored_fields = $stored_fields;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPreference()
-    {
-        return $this->preference;
-    }
-
-    /**
-     * @param mixed $preference
-     */
-    public function setPreference($preference): void
-    {
-        $this->preference = $preference;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getRealtime()
-    {
-        return $this->realtime;
-    }
-
-    /**
-     * @param mixed $realtime
-     */
-    public function setRealtime($realtime): void
-    {
-        $this->realtime = $realtime;
+        $this->wait_for_active_shards = $wait_for_active_shards;
     }
 
     /**
@@ -151,6 +101,22 @@ class Get extends AbstractBean
     public function setRouting($routing): void
     {
         $this->routing = $routing;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTimeout()
+    {
+        return $this->timeout;
+    }
+
+    /**
+     * @param mixed $timeout
+     */
+    public function setTimeout($timeout): void
+    {
+        $this->timeout = $timeout;
     }
 
     /**
@@ -204,32 +170,33 @@ class Get extends AbstractBean
     /**
      * @return mixed
      */
-    public function getVersion()
+    public function getPipeline()
     {
-        return $this->version;
+        return $this->pipeline;
     }
 
     /**
-     * @param mixed $version
+     * @param mixed $pipeline
      */
-    public function setVersion($version): void
+    public function setPipeline($pipeline): void
     {
-        $this->version = $version;
+        $this->pipeline = $pipeline;
     }
 
     /**
      * @return mixed
      */
-    public function getVersionType()
+    public function getBody()
     {
-        return $this->version_type;
+        return $this->body;
     }
 
     /**
-     * @param mixed $version_type
+     * @param mixed $body
      */
-    public function setVersionType($version_type): void
+    public function setBody($body): void
     {
-        $this->version_type = $version_type;
+        $this->body = $body;
     }
+
 }

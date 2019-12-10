@@ -40,4 +40,11 @@ class Get extends AbstractEndpoint
         return "/$index/_doc/$id";
     }
 
+    public function setId(string $id)
+    {
+        if (!empty($id)) {
+            $this->id = urlencode($id);
+        }
+        return $this;
+    }
 }

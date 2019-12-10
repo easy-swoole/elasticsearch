@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/9
- * Time: 17:04
+ * Date: 2019/12/10
+ * Time: 10:04
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
@@ -12,36 +12,33 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
 use EasySwoole\HttpClient\HttpClient;
 
-class Index extends AbstractEndpoint
+class Create extends AbstractEndpoint
 {
 
     public function getMethod()
     {
-        return HttpClient::METHOD_POST;
+        return HttpClient::METHOD_PUT;
     }
 
     public function getUri()
     {
-        if ($this->getIndex() == null) {
-            throw new RuntimeException('index is required for index');
+        if (empty($this->getId())) {
+            throw new RuntimeException('id is required for create');
+        }
+        $id = $this->getId();
+        if (empty($this->getIndex())) {
+            throw new RuntimeException('index is required for create');
         }
         $index = $this->getIndex();
-        $id = $this->getId() ?? null;
         $type = $this->getType() ?? null;
         if (isset($type)) {
             @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
         }
 
-        if (isset($type) && isset($id)) {
-            return "/$index/$type/$id";
-        }
-        if (isset($id)) {
-            return "/$index/_doc/$id";
-        }
         if (isset($type)) {
-            return "/$index/$type";
+            return "/$index/$type/$id/_create";
         }
-        return "/$index/_doc";
+        return "/$index/_create/$id";
     }
 
     public function setBody($body)
