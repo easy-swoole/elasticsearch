@@ -4,9 +4,7 @@
 namespace EasySwoole\ElasticSearch\RequestBean;
 
 
-use EasySwoole\Spl\SplBean;
-
-class Index extends SplBean
+class Index extends AbstractBean
 {
     protected $id;
     protected $index;
@@ -239,7 +237,7 @@ class Index extends SplBean
      */
     public function getBody()
     {
-        return $this->body;
+        return json_encode($this->body);
     }
 
     /**
