@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/10
- * Time: 16:06
+ * Date: 2019/12/11
+ * Time: 13:43
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
@@ -12,17 +12,21 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
 use EasySwoole\HttpClient\HttpClient;
 
-class DeleteQuery extends AbstractEndpoint
+class Exists extends AbstractEndpoint
 {
     public function getMethod()
     {
-        return HttpClient::METHOD_POST;
+        return HttpClient::METHOD_HEAD;
     }
 
     public function getUri()
     {
+        if (empty($this->getId())) {
+            throw new RuntimeException('id is required for exists');
+        }
+        $id = $this->getId();
         if (empty($this->getIndex())) {
-            throw new RuntimeException('index is required for delete_by_query');
+            throw new RuntimeException('index is required for exists');
         }
         $index = $this->getIndex();
         $type = $this->getType() ?? null;
@@ -31,15 +35,16 @@ class DeleteQuery extends AbstractEndpoint
         }
 
         if (isset($type)) {
-            return "/$index/$type/_delete_by_query";
+            return "/$index/$type/$id";
         }
-        return "/$index/_delete_by_query";
+        return "/$index/_doc/$id";
     }
 
-    public function setBody($body)
+
+    public function setId(string $id)
     {
-        if (!empty($body)) {
-            $this->body = $body;
+        if (!empty($id)) {
+            $this->id = urlencode($id);
         }
         return $this;
     }
