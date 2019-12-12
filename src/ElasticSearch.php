@@ -48,7 +48,7 @@ class ElasticSearch
         $httpClient = new HttpClient($url);
         switch ($endpoint->getMethod()) {
             case HttpClient::METHOD_POST:
-                $response = $httpClient->postJson($endpoint->getBody());
+                $response = $httpClient->post($endpoint->getBody(),$headers);
                 break;
             case HttpClient::METHOD_PUT:
                 $response = $httpClient->put($endpoint->getBody(), $headers);

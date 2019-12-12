@@ -14,8 +14,13 @@ use EasySwoole\ElasticSearch\RequestBean\DeleteScript;
 use EasySwoole\ElasticSearch\RequestBean\Exists;
 use EasySwoole\ElasticSearch\RequestBean\ExistsSource;
 use EasySwoole\ElasticSearch\RequestBean\Explain;
+use EasySwoole\ElasticSearch\RequestBean\FieldCaps;
 use EasySwoole\ElasticSearch\RequestBean\Get;
+use EasySwoole\ElasticSearch\RequestBean\GetScript;
+use EasySwoole\ElasticSearch\RequestBean\GetSource;
 use EasySwoole\ElasticSearch\RequestBean\Index;
+use EasySwoole\ElasticSearch\RequestBean\Mget;
+use EasySwoole\ElasticSearch\RequestBean\Msearch;
 use EasySwoole\HttpClient\Bean\Response;
 
 class Client
@@ -28,6 +33,7 @@ class Client
         $this->elasticSearch = $elasticSearch;
     }
 
+    //待测试
     public function bulk(Bulk $bean)
     {
         $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Bulk();
@@ -78,7 +84,7 @@ class Client
         return $this->elasticSearch->request($endpoint);
     }
 
-
+    //待测试
     public function deleteByQuery(DeleteByQuery $bean)
     {
         $endpoint = new \EasySwoole\ElasticSearch\Endpoints\DeleteByQuery();
@@ -107,6 +113,7 @@ class Client
         return $this->elasticSearch->request($endpoint);
     }
 
+
     public function exists(Exists $bean)
     {
         $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Exists();
@@ -117,6 +124,7 @@ class Client
         return $this->elasticSearch->request($endpoint);
     }
 
+
     public function existsSource(ExistsSource $bean)
     {
         $endpoint = new \EasySwoole\ElasticSearch\Endpoints\ExistsSource();
@@ -126,6 +134,7 @@ class Client
         $endpoint->setParams($bean->toArrayWithFilter(['id', 'index', 'type'], $bean::FILTER_NOT_NULL));
         return $this->elasticSearch->request($endpoint);
     }
+
 
     public function explain(Explain $bean)
     {
@@ -138,12 +147,16 @@ class Client
         return $this->elasticSearch->request($endpoint);
     }
 
-    public function fieldCaps()
-    {
 
+    public function fieldCaps(FieldCaps $bean)
+    {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\FieldCaps();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setParams($bean->toArrayWithFilter(['index'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    //
+
     public function get(Get $bean)
     {
         $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Get();
@@ -155,16 +168,26 @@ class Client
     }
 
 
-    public function getScript()
+    public function getScript(GetScript $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\GetScript();
+        $endpoint->setId($bean->getId());
+        $endpoint->setParams($bean->toArrayWithFilter(['id'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function getSource()
+    public function getSource(GetSource $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\GetSource();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setId($bean->getId());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'type', 'id'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    //
+
     public function index(Index $bean): Response
     {
         $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Index();
@@ -179,15 +202,29 @@ class Client
 
     public function info()
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Info();
+        return $this->elasticSearch->request($endpoint);
     }
 
-    public function mget()
+    public function mget(Mget $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Mget();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function msearch()
+    public function msearch(Msearch $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Msearch();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
     public function msearchTemplate()

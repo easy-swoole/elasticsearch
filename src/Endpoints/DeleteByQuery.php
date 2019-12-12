@@ -10,22 +10,18 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 
 
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
-use EasySwoole\HttpClient\HttpClient;
 
 class DeleteByQuery extends AbstractEndpoint
 {
-    public function getMethod()
+    public function getURI(): string
     {
-        return HttpClient::METHOD_POST;
-    }
-
-    public function getUri()
-    {
-        if (empty($this->getIndex())) {
-            throw new RuntimeException('index is required for delete_by_query');
+        if (isset($this->index) !== true) {
+            throw new RuntimeException(
+                'index is required for delete_by_query'
+            );
         }
-        $index = $this->getIndex();
-        $type = $this->getType() ?? null;
+        $index = $this->index;
+        $type = $this->type ?? null;
         if (isset($type)) {
             @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
         }
@@ -36,11 +32,18 @@ class DeleteByQuery extends AbstractEndpoint
         return "/$index/_delete_by_query";
     }
 
-    public function setBody($body)
+    public function getMethod(): string
     {
-        if (!empty($body)) {
-            $this->body = $body;
+        return 'POST';
+    }
+
+    public function setBody($body): DeleteByQuery
+    {
+        if (isset($body) !== true) {
+            return $this;
         }
+        $this->body = $body;
+
         return $this;
     }
 }

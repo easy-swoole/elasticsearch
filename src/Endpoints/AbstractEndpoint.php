@@ -86,6 +86,6 @@ abstract class AbstractEndpoint
 
     abstract public function getMethod(): string;
 
-    abstract public function getUri(): string;
+    abstract public function getURI(): string;
 
 }

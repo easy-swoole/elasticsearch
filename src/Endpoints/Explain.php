@@ -9,16 +9,11 @@
 namespace EasySwoole\ElasticSearch\Endpoints;
 
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
-use EasySwoole\HttpClient\HttpClient;
 
 class Explain extends AbstractEndpoint
 {
-    public function getMethod()
-    {
-        return isset($this->body) ? HttpClient::METHOD_POST : HttpClient::METHOD_GET;
-    }
 
-    public function getUri()
+    public function getURI(): string
     {
         if (isset($this->id) !== true) {
             throw new RuntimeException(
@@ -43,6 +38,11 @@ class Explain extends AbstractEndpoint
         return "/$index/_explain/$id";
     }
 
+    public function getMethod(): string
+    {
+        return isset($this->body) ? 'POST' : 'GET';
+    }
+
     public function setBody($body): Explain
     {
         if (isset($body) !== true) {
@@ -53,7 +53,7 @@ class Explain extends AbstractEndpoint
         return $this;
     }
 
-    public function setId(string $id): Explain
+    public function setId($id): Explain
     {
         if (isset($id) !== true) {
             return $this;

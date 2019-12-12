@@ -10,26 +10,24 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 
 
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
-use EasySwoole\HttpClient\HttpClient;
 
 class Exists extends AbstractEndpoint
 {
-    public function getMethod()
+    public function getURI(): string
     {
-        return HttpClient::METHOD_HEAD;
-    }
-
-    public function getUri()
-    {
-        if (empty($this->getId())) {
-            throw new RuntimeException('id is required for exists');
+        if (isset($this->id) !== true) {
+            throw new RuntimeException(
+                'id is required for exists'
+            );
         }
-        $id = $this->getId();
-        if (empty($this->getIndex())) {
-            throw new RuntimeException('index is required for exists');
+        $id = $this->id;
+        if (isset($this->index) !== true) {
+            throw new RuntimeException(
+                'index is required for exists'
+            );
         }
-        $index = $this->getIndex();
-        $type = $this->getType() ?? null;
+        $index = $this->index;
+        $type = $this->type ?? null;
         if (isset($type)) {
             @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
         }
@@ -40,12 +38,18 @@ class Exists extends AbstractEndpoint
         return "/$index/_doc/$id";
     }
 
-
-    public function setId(string $id)
+    public function getMethod(): string
     {
-        if (!empty($id)) {
-            $this->id = urlencode($id);
+        return 'HEAD';
+    }
+
+    public function setId($id): Exists
+    {
+        if (isset($id) !== true) {
+            return $this;
         }
+        $this->id = $id;
+
         return $this;
     }
 }

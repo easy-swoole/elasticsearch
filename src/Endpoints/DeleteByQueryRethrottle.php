@@ -10,35 +10,34 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 
 
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
-use EasySwoole\HttpClient\HttpClient;
 
 class DeleteByQueryRethrottle extends AbstractEndpoint
 {
+
     protected $task_id;
 
-    public function getMethod()
+    public function getURI(): string
     {
-        return HttpClient::METHOD_POST;
-    }
+        $task_id = $this->task_id ?? null;
 
-    public function getUri()
-    {
-        $task_id = $this->getTaskId() ?? null;
-
-        if (!empty($task_id)) {
+        if (isset($task_id)) {
             return "/_delete_by_query/$task_id/_rethrottle";
         }
         throw new RuntimeException('Missing parameter for the endpoint delete_by_query_rethrottle');
     }
 
-    public function setTaskId($taskId)
+    public function getMethod(): string
     {
-        $this->task_id = $taskId;
-        return $this;
+        return 'POST';
     }
 
-    public function getTaskId()
+    public function setTaskId($task_id): DeleteByQueryRethrottle
     {
-        return $this->task_id;
+        if (isset($task_id) !== true) {
+            return $this;
+        }
+        $this->task_id = $task_id;
+
+        return $this;
     }
 }

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/11
- * Time: 13:30
+ * Date: 2019/12/12
+ * Time: 14:31
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
@@ -11,7 +11,7 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
 
-class DeleteScript extends AbstractEndpoint
+class GetScript extends AbstractEndpoint
 {
     public function getURI(): string
     {
@@ -20,15 +20,16 @@ class DeleteScript extends AbstractEndpoint
         if (isset($id)) {
             return "/_scripts/$id";
         }
-        throw new RuntimeException('Missing parameter for the endpoint delete_script');
+        throw new RuntimeException('Missing parameter for the endpoint get_script');
     }
+
 
     public function getMethod(): string
     {
-        return 'DELETE';
+        return 'GET';
     }
 
-    public function setId($id): DeleteScript
+    public function setId($id): GetScript
     {
         if (isset($id) !== true) {
             return $this;

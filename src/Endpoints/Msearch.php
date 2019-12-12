@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/10
- * Time: 9:42
+ * Date: 2019/12/12
+ * Time: 18:14
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
@@ -11,7 +11,7 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 
 use EasySwoole\ElasticSearch\Exception\InvalidArgumentException;
 
-class Bulk extends AbstractEndpoint
+class Msearch extends AbstractEndpoint
 {
 
     public function getURI(): string
@@ -23,20 +23,21 @@ class Bulk extends AbstractEndpoint
         }
 
         if (isset($index) && isset($type)) {
-            return "/$index/$type/_bulk";
+            return "/$index/$type/_msearch";
         }
         if (isset($index)) {
-            return "/$index/_bulk";
+            return "/$index/_msearch";
         }
-        return "/_bulk";
+        return "/_msearch";
     }
+
 
     public function getMethod(): string
     {
-        return 'POST';
+        return isset($this->body) ? 'POST' : 'GET';
     }
 
-    public function setBody($body): Bulk
+    public function setBody($body): Msearch
     {
         if (isset($body) !== true) {
             return $this;
@@ -55,6 +56,4 @@ class Bulk extends AbstractEndpoint
         }
         return $this;
     }
-
-
 }

@@ -14,22 +14,22 @@ use http\Exception\RuntimeException;
 
 class Get extends AbstractEndpoint
 {
-    public function getMethod()
-    {
-        return HttpClient::METHOD_GET;
-    }
 
-    public function getUri()
+    public function getURI(): string
     {
-        if (!$this->getId()) {
-            throw new RuntimeException('id is required for get');
+        if (isset($this->id) !== true) {
+            throw new RuntimeException(
+                'id is required for get'
+            );
         }
-        $id = $this->getId();
-        if (!$this->getIndex()) {
-            throw new RuntimeException('index is required for get');
+        $id = $this->id;
+        if (isset($this->index) !== true) {
+            throw new RuntimeException(
+                'index is required for get'
+            );
         }
-        $index = $this->getIndex();
-        $type = $this->getType() ?? null;
+        $index = $this->index;
+        $type = $this->type ?? null;
         if (isset($type)) {
             @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
         }
@@ -40,11 +40,18 @@ class Get extends AbstractEndpoint
         return "/$index/_doc/$id";
     }
 
-    public function setId(string $id)
+    public function getMethod(): string
     {
-        if (!empty($id)) {
-            $this->id = urlencode($id);
+        return 'GET';
+    }
+
+    public function setId($id): Get
+    {
+        if (isset($id) !== true) {
+            return $this;
         }
+        $this->id = $id;
+
         return $this;
     }
 }
