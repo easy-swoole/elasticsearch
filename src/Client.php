@@ -21,6 +21,22 @@ use EasySwoole\ElasticSearch\RequestBean\GetSource;
 use EasySwoole\ElasticSearch\RequestBean\Index;
 use EasySwoole\ElasticSearch\RequestBean\Mget;
 use EasySwoole\ElasticSearch\RequestBean\Msearch;
+use EasySwoole\ElasticSearch\RequestBean\MsearchTemplate;
+use EasySwoole\ElasticSearch\RequestBean\MTermVectors;
+use EasySwoole\ElasticSearch\RequestBean\PutScript;
+use EasySwoole\ElasticSearch\RequestBean\RankEval;
+use EasySwoole\ElasticSearch\RequestBean\Reindex;
+use EasySwoole\ElasticSearch\RequestBean\ReindexRethrottle;
+use EasySwoole\ElasticSearch\RequestBean\RenderSearchTemplate;
+use EasySwoole\ElasticSearch\RequestBean\ScriptsPainlessExecute;
+use EasySwoole\ElasticSearch\RequestBean\Scroll;
+use EasySwoole\ElasticSearch\RequestBean\Search;
+use EasySwoole\ElasticSearch\RequestBean\SearchShards;
+use EasySwoole\ElasticSearch\RequestBean\SearchTemplate;
+use EasySwoole\ElasticSearch\RequestBean\TermVectors;
+use EasySwoole\ElasticSearch\RequestBean\Update;
+use EasySwoole\ElasticSearch\RequestBean\UpdateByQuery;
+use EasySwoole\ElasticSearch\RequestBean\UpdateByQueryRethrottle;
 use EasySwoole\HttpClient\Bean\Response;
 
 class Client
@@ -216,7 +232,7 @@ class Client
         return $this->elasticSearch->request($endpoint);
     }
 
-
+    //待测试
     public function msearch(Msearch $bean)
     {
         $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Msearch();
@@ -227,76 +243,168 @@ class Client
         return $this->elasticSearch->request($endpoint);
     }
 
-    public function msearchTemplate()
+    //待测试
+    public function msearchTemplate(MsearchTemplate $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\MsearchTemplate();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    public function mtermvectors()
+    //待测试
+    public function mtermvectors(MTermVectors $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\MTermVectors();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
+
 
     public function ping()
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Ping();
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function putScript()
+    public function putScript(PutScript $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\PutScript();
+        $endpoint->setId($bean->getId());
+        $endpoint->setContext($bean->getContext());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['id', 'context', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function rankEval()
+    public function rankEval(RankEval $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\RankEval();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    public function reindex()
+    public function reindex(Reindex $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Reindex();
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function reindexRethrottle()
+    public function reindexRethrottle(ReindexRethrottle $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\ReindexRethrottle();
+        $endpoint->setTaskId($bean->getTaskId());
+        $endpoint->setParams($bean->toArrayWithFilter(['task_id'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    public function renderSearchTemplate()
+    public function renderSearchTemplate(RenderSearchTemplate $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\RenderSearchTemplate();
+        $endpoint->setId($bean->getId());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['id', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    public function scriptsPainlessExecute()
+    public function scriptsPainlessExecute(ScriptsPainlessExecute $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\ScriptsPainlessExecute();
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    public function scroll()
+    public function scroll(Scroll $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Scroll();
+        $endpoint->setScrollId($bean->getScrollId());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['scroll_id', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function search()
+    public function search(Search $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Search();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    public function searchShards()
+    public function searchShards(SearchShards $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\SearchShards();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setParams($bean->toArrayWithFilter(['index'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function searchTemplate()
+    public function searchTemplate(SearchTemplate $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\SearchTemplate();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function termvectors()
+    public function termvectors(TermVectors $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\TermVectors();
+        $endpoint->setId($bean->getId());
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['id', 'index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
 
-    public function update()
+    public function update(Update $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\Update();
+        $endpoint->setId($bean->getId());
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['id', 'index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-    public function updateByQuery()
+    public function updateByQuery(UpdateByQuery $bean)
     {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\UpdateByQuery();
+        $endpoint->setIndex($bean->getIndex());
+        $endpoint->setType($bean->getType());
+        $endpoint->setBody($bean->getBody());
+        $endpoint->setParams($bean->toArrayWithFilter(['index', 'type', 'body'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
     }
 
-
+    public function updateByQueryRethrottle(UpdateByQueryRethrottle $bean)
+    {
+        $endpoint = new \EasySwoole\ElasticSearch\Endpoints\UpdateByQueryRethrottle();
+        $endpoint->setTaskId($bean->getTaskId());
+        $endpoint->setParams($bean->toArrayWithFilter(['task_id'], $bean::FILTER_NOT_NULL));
+        return $this->elasticSearch->request($endpoint);
+    }
 }
