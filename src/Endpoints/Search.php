@@ -2,14 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/10
- * Time: 11:44
+ * Date: 2019/12/13
+ * Time: 11:11
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
 
 
-class Count extends AbstractEndpoint
+class Search extends AbstractEndpoint
 {
     public function getURI(): string
     {
@@ -20,12 +20,12 @@ class Count extends AbstractEndpoint
         }
 
         if (isset($index) && isset($type)) {
-            return "/$index/$type/_count";
+            return "/$index/$type/_search";
         }
         if (isset($index)) {
-            return "/$index/_count";
+            return "/$index/_search";
         }
-        return "/_count";
+        return "/_search";
     }
 
     public function getMethod(): string
@@ -33,7 +33,7 @@ class Count extends AbstractEndpoint
         return isset($this->body) ? 'POST' : 'GET';
     }
 
-    public function setBody($body): Count
+    public function setBody($body): Search
     {
         if (isset($body) !== true) {
             return $this;

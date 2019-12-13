@@ -17,6 +17,7 @@ $bean = new \EasySwoole\ElasticSearch\RequestBean\Get();
 $bean->setIndex('my-index');
 //$bean->setType('my-type');
 $bean->setId('my-id');
+$bean->setSource('test-field');
 
 
 \Swoole\Coroutine::create(function () use ($config, $bean) {

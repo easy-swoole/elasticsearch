@@ -10,24 +10,21 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 
 
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
-use EasySwoole\HttpClient\HttpClient;
 
 class Index extends AbstractEndpoint
 {
 
-    public function getMethod()
+    //请求的URI
+    public function getURI(): string
     {
-        return HttpClient::METHOD_POST;
-    }
-
-    public function getUri()
-    {
-        if ($this->getIndex() == null) {
-            throw new RuntimeException('index is required for index');
+        if (isset($this->index) !== true) {
+            throw new RuntimeException(
+                'index is required for index'
+            );
         }
-        $index = $this->getIndex();
-        $id = $this->getId() ?? null;
-        $type = $this->getType() ?? null;
+        $index = $this->index;
+        $id = $this->id ?? null;
+        $type = $this->type ?? null;
         if (isset($type)) {
             @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
         }
@@ -44,19 +41,29 @@ class Index extends AbstractEndpoint
         return "/$index/_doc";
     }
 
-    public function setBody($body)
+    //请求的方法
+    public function getMethod(): string
     {
-        if (!empty($body)) {
-            $this->body = $body;
+        return 'POST';
+    }
+
+    public function setBody($body): Index
+    {
+        if (isset($body) !== true) {
+            return $this;
         }
+        $this->body = $body;
+
         return $this;
     }
 
-    public function setId(string $id)
+    public function setId($id): Index
     {
-        if (!empty($id)) {
-            $this->id = urlencode($id);
+        if (isset($id) !== true) {
+            return $this;
         }
+        $this->id = $id;
+
         return $this;
     }
 }

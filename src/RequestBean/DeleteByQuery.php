@@ -4,7 +4,7 @@
 namespace EasySwoole\ElasticSearch\RequestBean;
 
 
-class DeleteQuery extends AbstractBean
+class DeleteByQuery extends AbstractBean
 {
 
     protected $index;

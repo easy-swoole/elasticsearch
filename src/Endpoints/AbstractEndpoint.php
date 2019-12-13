@@ -53,7 +53,7 @@ abstract class AbstractEndpoint
     }
 
 
-    public function setId(string $id)
+    public function setId($id)
     {
         $this->id = urlencode($id);
         return $this;
@@ -84,8 +84,8 @@ abstract class AbstractEndpoint
         return $this->params;
     }
 
-    abstract public function getMethod();
+    abstract public function getMethod(): string;
 
-    abstract public function getUri();
+    abstract public function getURI(): string;
 
 }

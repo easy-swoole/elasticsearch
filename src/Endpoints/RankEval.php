@@ -2,30 +2,23 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/10
- * Time: 11:44
+ * Date: 2019/12/13
+ * Time: 11:05
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
 
 
-class Count extends AbstractEndpoint
+class RankEval extends AbstractEndpoint
 {
     public function getURI(): string
     {
         $index = $this->index ?? null;
-        $type = $this->type ?? null;
-        if (isset($type)) {
-            @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
-        }
 
-        if (isset($index) && isset($type)) {
-            return "/$index/$type/_count";
-        }
         if (isset($index)) {
-            return "/$index/_count";
+            return "/$index/_rank_eval";
         }
-        return "/_count";
+        return "/_rank_eval";
     }
 
     public function getMethod(): string
@@ -33,7 +26,7 @@ class Count extends AbstractEndpoint
         return isset($this->body) ? 'POST' : 'GET';
     }
 
-    public function setBody($body): Count
+    public function setBody($body): RankEval
     {
         if (isset($body) !== true) {
             return $this;

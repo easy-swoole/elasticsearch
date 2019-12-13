@@ -1,31 +1,30 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: mayn
- * Date: 2019/12/9
- * Time: 21:39
+ * User: xcg
+ * Date: 2019/12/11
+ * Time: 13:56
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
 
 
-use EasySwoole\HttpClient\HttpClient;
-use http\Exception\RuntimeException;
+use EasySwoole\ElasticSearch\Exception\RuntimeException;
 
-class Get extends AbstractEndpoint
+class ExistsSource extends AbstractEndpoint
 {
 
     public function getURI(): string
     {
         if (isset($this->id) !== true) {
             throw new RuntimeException(
-                'id is required for get'
+                'id is required for exists_source'
             );
         }
         $id = $this->id;
         if (isset($this->index) !== true) {
             throw new RuntimeException(
-                'index is required for get'
+                'index is required for exists_source'
             );
         }
         $index = $this->index;
@@ -35,17 +34,17 @@ class Get extends AbstractEndpoint
         }
 
         if (isset($type)) {
-            return "/$index/$type/$id";
+            return "/$index/$type/$id/_source";
         }
-        return "/$index/_doc/$id";
+        return "/$index/_source/$id";
     }
 
     public function getMethod(): string
     {
-        return 'GET';
+        return 'HEAD';
     }
 
-    public function setId($id): Get
+    public function setId($id): ExistsSource
     {
         if (isset($id) !== true) {
             return $this;

@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/9
- * Time: 17:59
+ * Date: 2019/12/13
+ * Time: 9:29
  */
 require_once 'vendor/autoload.php';
 
@@ -12,15 +12,23 @@ $config->setHost('192.168.174.130');
 $config->setPort(9200);
 
 
-$bean = new \EasySwoole\ElasticSearch\RequestBean\Index();
-$bean->setIndex('my_index_2');
-$bean->setType('my_type_2');
+$bean = new \EasySwoole\ElasticSearch\RequestBean\MTermVectors();
+//$bean->setIndex('my-index-3');
+//$bean->setType('my-type-3');
 //$bean->setId('my_id');
-$bean->setBody(['testField' => 'abd12']);
+$bean->setBody(['docs' =>
+    [
+        [
+            '_index' => 'my-index-3',
+            '_type' => 'my-type-3',
+            '_id' => 'my-id-3',
+        ]
+    ]
+]);
 
 
 \Swoole\Coroutine::create(function () use ($config, $bean) {
     $obj = new \EasySwoole\ElasticSearch\ElasticSearch($config);
-    $response = $obj->client()->index($bean);
+    $response = $obj->client()->mtermvectors($bean);
     print_r($response->getBody());
 });

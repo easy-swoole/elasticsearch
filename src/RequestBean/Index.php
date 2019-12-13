@@ -237,7 +237,7 @@ class Index extends AbstractBean
      */
     public function getBody()
     {
-        return json_encode($this->body);
+        return $this->body;
     }
 
     /**

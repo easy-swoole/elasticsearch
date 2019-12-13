@@ -14,10 +14,10 @@ $config->setPort(9200);
 
 
 $bean = new \EasySwoole\ElasticSearch\RequestBean\Create();
-$bean->setIndex('my-index-2');
-$bean->setType('my-type-2');
-$bean->setId('my-id-2');
-$bean->setBody(['test-field-2' => 'abddsadasda']);
+$bean->setIndex('my-index-4');
+$bean->setType('my-type-4');
+$bean->setId('my-id-4');
+$bean->setBody(['test-field-4' => 'abddsadasda111111111111111']);
 
 
 \Swoole\Coroutine::create(function () use ($config, $bean) {

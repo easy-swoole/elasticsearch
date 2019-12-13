@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: xcg
- * Date: 2019/12/10
- * Time: 10:04
+ * Date: 2019/12/13
+ * Time: 11:14
  */
 
 namespace EasySwoole\ElasticSearch\Endpoints;
@@ -11,39 +11,40 @@ namespace EasySwoole\ElasticSearch\Endpoints;
 
 use EasySwoole\ElasticSearch\Exception\RuntimeException;
 
-class Create extends AbstractEndpoint
+class TermVectors extends AbstractEndpoint
 {
     public function getURI(): string
     {
-        if (isset($this->id) !== true) {
-            throw new RuntimeException(
-                'id is required for create'
-            );
-        }
-        $id = $this->id;
         if (isset($this->index) !== true) {
             throw new RuntimeException(
-                'index is required for create'
+                'index is required for termvectors'
             );
         }
         $index = $this->index;
+        $id = $this->id ?? null;
         $type = $this->type ?? null;
         if (isset($type)) {
             @trigger_error('Specifying types in urls has been deprecated', E_USER_DEPRECATED);
         }
 
-        if (isset($type)) {
-            return "/$index/$type/$id/_create";
+        if (isset($type) && isset($id)) {
+            return "/$index/$type/$id/_termvectors";
         }
-        return "/$index/_create/$id";
+        if (isset($type)) {
+            return "/$index/$type/_termvectors";
+        }
+        if (isset($id)) {
+            return "/$index/_termvectors/$id";
+        }
+        return "/$index/_termvectors";
     }
 
     public function getMethod(): string
     {
-        return 'PUT';
+        return isset($this->body) ? 'POST' : 'GET';
     }
 
-    public function setBody($body): Create
+    public function setBody($body): TermVectors
     {
         if (isset($body) !== true) {
             return $this;
@@ -53,7 +54,7 @@ class Create extends AbstractEndpoint
         return $this;
     }
 
-    public function setId($id): Create
+    public function setId($id): TermVectors
     {
         if (isset($id) !== true) {
             return $this;
