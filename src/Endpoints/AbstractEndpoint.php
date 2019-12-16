@@ -15,7 +15,8 @@ abstract class AbstractEndpoint
     protected $type;
     protected $id;
     protected $body;
-    protected $params;
+    protected $params = [];
+    protected $custom = [];
 
 
     public function getIndex(): ?string
@@ -52,6 +53,10 @@ abstract class AbstractEndpoint
         return $this;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function setId($id)
     {
@@ -59,9 +64,9 @@ abstract class AbstractEndpoint
         return $this;
     }
 
-    public function getId()
+    public function getBody()
     {
-        return $this->id;
+        return empty($this->body) ? null : json_encode($this->body);
     }
 
     public function setBody($body)
@@ -69,9 +74,9 @@ abstract class AbstractEndpoint
         $this->body = $body;
     }
 
-    public function getBody()
+    public function getParams()
     {
-        return empty($this->body) ? null : json_encode($this->body);
+        return $this->convertArraysToStrings(array_merge($this->custom, $this->params));
     }
 
     public function setParams(array $params)
@@ -79,9 +84,38 @@ abstract class AbstractEndpoint
         $this->params = $params;
     }
 
-    public function getParams()
+    public function getCustom()
     {
-        return $this->params;
+        return $this->custom;
+    }
+
+    public function setCustom(array $custom)
+    {
+        $this->custom = $custom;
+    }
+
+    private function convertArraysToStrings(array $params)
+    {
+        foreach ($params as $key => &$value) {
+            if (is_array($value) === true) {
+                if ($this->isNestedArray($value) !== true) {
+                    $value = implode(",", $value);
+                }
+            }
+        }
+
+        return $params;
+    }
+
+    private function isNestedArray(array $a): bool
+    {
+        foreach ($a as $v) {
+            if (is_array($v)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     abstract public function getMethod(): string;

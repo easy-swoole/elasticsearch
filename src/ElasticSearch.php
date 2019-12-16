@@ -11,6 +11,7 @@ use EasySwoole\HttpClient\HttpClient;
 class ElasticSearch
 {
     protected $config;
+    protected $headers;
 
     function __construct(Config $config)
     {
@@ -33,28 +34,32 @@ class ElasticSearch
     }
 
 
-    public function getHttpClient()
-    {
-
-    }
-
     public function request(AbstractEndpoint $endpoint): Response
     {
+        $params = [];
         $url = 'http://' . $this->getConfig()->getHost() . ':' . $this->getConfig()->getPort() . $endpoint->getUri();
-        if ($endpoint->getParams()) {
-            $url .= '?' . http_build_query($endpoint->getParams());
-        }
+
+        empty($endpoint->getCustom()) || $params = $endpoint->getCustom();
+        empty($endpoint->getParams()) || $params = array_merge($params, $endpoint->getParams());
+
+        empty($params) || $url .= '?' . http_build_query($endpoint->getParams());
+
         $headers = ['Content-Type' => HttpClient::CONTENT_TYPE_APPLICATION_JSON];
+        empty($this->headers) || $headers = array_merge($headers, $this->headers);
+
         $httpClient = new HttpClient($url);
         switch ($endpoint->getMethod()) {
             case HttpClient::METHOD_POST:
-                $response = $httpClient->post($endpoint->getBody(),$headers);
+                $response = $httpClient->post($endpoint->getBody(), $headers);
                 break;
             case HttpClient::METHOD_PUT:
                 $response = $httpClient->put($endpoint->getBody(), $headers);
                 break;
             case HttpClient::METHOD_DELETE:
                 $response = $httpClient->delete($headers);
+                break;
+            case HttpClient::METHOD_HEAD:
+                $response = $httpClient->head($headers);
                 break;
             default:
                 $response = $httpClient->get($headers);

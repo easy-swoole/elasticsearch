@@ -41,7 +41,6 @@ use EasySwoole\HttpClient\Bean\Response;
 
 class Client
 {
-
     private $elasticSearch;
 
     public function __construct(ElasticSearch $elasticSearch)
