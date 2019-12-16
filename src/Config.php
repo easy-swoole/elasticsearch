@@ -8,8 +8,8 @@ use EasySwoole\Spl\SplBean;
 
 class Config extends SplBean
 {
-    protected $host;
-    protected $port;
+    protected $host = '127.0.0.1';
+    protected $port = 9200;
 
     /**
      * @return mixed

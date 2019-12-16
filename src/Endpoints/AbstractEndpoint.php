@@ -16,7 +16,7 @@ abstract class AbstractEndpoint
     protected $id;
     protected $body;
     protected $params = [];
-    protected $custom = [];
+    protected $options = [];
 
 
     public function getIndex(): ?string
@@ -76,28 +76,67 @@ abstract class AbstractEndpoint
 
     public function getParams()
     {
-        return $this->convertArraysToStrings(array_merge($this->custom, $this->params));
+        return $this->params;
     }
 
     public function setParams(array $params)
     {
-        $this->params = $params;
+        //存在client参数
+        $this->extractOptions($params);
+        $params = $this->convertCustom($params);
+        $this->params = $this->convertArraysToStrings($params);
+        return $this;
     }
 
-    public function getCustom()
+    public function getOptions()
     {
-        return $this->custom;
+        return $this->options;
     }
 
-    public function setCustom(array $custom)
+    private function extractOptions(&$params)
     {
-        $this->custom = $custom;
+        // Extract out client options, then start transforming
+        if (isset($params['client']) === true) {
+            // Check if the opaqueId is populated and add the header
+            if (isset($params['client']['opaqueId']) === true) {
+                if (isset($params['client']['headers']) === false) {
+                    $params['client']['headers'] = [];
+                }
+                $params['client']['headers']['x-opaque-id'] = [trim($params['client']['opaqueId'])];
+                unset($params['client']['opaqueId']);
+            }
+
+            $this->options['client'] = $params['client'];
+            unset($params['client']);
+        }
+        $ignore = isset($this->options['client']['ignore']) ? $this->options['client']['ignore'] : null;
+        if (isset($ignore) === true) {
+            if (is_string($ignore)) {
+                $this->options['client']['ignore'] = explode(",", $ignore);
+            } elseif (is_array($ignore)) {
+                $this->options['client']['ignore'] = $ignore;
+            } else {
+                $this->options['client']['ignore'] = [$ignore];
+            }
+        }
+    }
+
+    private function convertCustom(array $params): array
+    {
+        if (isset($params['custom']) === true) {
+            foreach ($params['custom'] as $k => $v) {
+                $params[$k] = $v;
+            }
+            unset($params['custom']);
+        }
+
+        return $params;
     }
 
     private function convertArraysToStrings(array $params)
     {
         foreach ($params as $key => &$value) {
-            if (is_array($value) === true) {
+            if (!($key === 'client' || $key == 'custom') && is_array($value) === true) {
                 if ($this->isNestedArray($value) !== true) {
                     $value = implode(",", $value);
                 }

@@ -9,7 +9,10 @@
     "require": {
         "easyswoole/spl": "^1.3",
         "easyswoole/http-client": "^1.3",
-        "easyswoole/swoole-ide-helper": "^1.3"
+        "easyswoole/swoole-ide-helper": "^1.3",
+        "easyswoole/phpunit": "^1.0"
+    },
+    "require-dev": {
     },
     "autoload": {
       "psr-4": {
@@ -18,7 +21,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "EasySwoole\\ElasticSearch\\": "tests/"
+            "EasySwoole\\ElasticSearch\\Tests\\": "tests/"
         }
     }
 }

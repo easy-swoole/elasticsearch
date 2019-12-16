@@ -20,8 +20,8 @@ abstract class AbstractBean extends SplBean
     protected $filter_path;
     protected $opaqueId;
 
-    protected $clientSetting;
-    protected $headers;
+    protected $client;
+    protected $custom;
 
     /**
      * @return mixed
@@ -119,28 +119,20 @@ abstract class AbstractBean extends SplBean
         $this->opaqueId = $opaqueId;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getClientSetting()
-    {
-        return $this->clientSetting;
-    }
 
     /**
-     * @param mixed $clientSetting
+     * @param $key
+     * @param $value
      */
-    public function setClientSetting($clientSetting): void
+    public function setClientSetting($key, $value): void
     {
-        $this->clientSetting = $clientSetting;
+        $this->client['setting'][$key] = $value;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getHeaders()
+
+    public function setHeader($key, $value)
     {
-        return $this->headers;
+        $this->client['headers'][$key] = $value;
     }
 
     /**
@@ -148,7 +140,26 @@ abstract class AbstractBean extends SplBean
      */
     public function setHeaders($headers): void
     {
-        $this->headers = $headers;
+        $this->client['headers'] = $headers;
+    }
+
+
+
+
+    /**
+     * @return mixed
+     */
+    public function getCustom()
+    {
+        return $this->custom;
+    }
+
+    /**
+     * @param mixed $custom
+     */
+    public function setCustom(array $custom): void
+    {
+        $this->custom = $custom;
     }
 
 

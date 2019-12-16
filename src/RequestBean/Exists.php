@@ -6,10 +6,11 @@ namespace EasySwoole\ElasticSearch\RequestBean;
 
 class Exists extends AbstractBean
 {
-    protected $id;
-    protected $index;
 
+    protected $index;
     protected $type;
+    protected $id;
+
     protected $stored_fields;
     protected $preference;
     protected $realtime;
