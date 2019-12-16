@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 
 class Base extends TestCase
 {
-    protected $elasticSearch;
+    private $elasticSearch;
 
     function getElasticSearch():ElasticSearch
     {
