@@ -19,6 +19,6 @@ class GetTest extends Base
         $bean->setId('my-id');
         $response = $this->getElasticSearch()->client()->get($bean)->getBody();
         $response = json_decode($response, true);
-        $this->assertTrue($response['found']);
+        $this->assertIsArray($response);
     }
 }
