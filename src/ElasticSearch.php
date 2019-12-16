@@ -4,10 +4,6 @@
 namespace EasySwoole\ElasticSearch;
 
 
-use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
-use EasySwoole\HttpClient\Bean\Response;
-use EasySwoole\HttpClient\HttpClient;
-
 class ElasticSearch
 {
     protected $config;
@@ -29,6 +25,6 @@ class ElasticSearch
      */
     public function client(): Client
     {
-        return new Client($this);
+        return new Client($this->config);
     }
 }
