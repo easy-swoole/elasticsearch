@@ -4,7 +4,6 @@
 namespace EasySwoole\ElasticSearch;
 
 use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
-use EasySwoole\ElasticSearch\Endpoints\Ping;
 use EasySwoole\ElasticSearch\RequestBean\Bulk;
 use EasySwoole\ElasticSearch\RequestBean\ClearScroll;
 use EasySwoole\ElasticSearch\RequestBean\Count;
@@ -26,6 +25,7 @@ use EasySwoole\ElasticSearch\RequestBean\Mget;
 use EasySwoole\ElasticSearch\RequestBean\Msearch;
 use EasySwoole\ElasticSearch\RequestBean\MsearchTemplate;
 use EasySwoole\ElasticSearch\RequestBean\MTermVectors;
+use EasySwoole\ElasticSearch\RequestBean\Ping;
 use EasySwoole\ElasticSearch\RequestBean\PutScript;
 use EasySwoole\ElasticSearch\RequestBean\RankEval;
 use EasySwoole\ElasticSearch\RequestBean\Reindex;
@@ -273,9 +273,10 @@ class Client
     }
 
 
-    public function ping()
+    public function ping(Ping $bean)
     {
-        $endpoint = new Ping();
+        $endpoint = new Endpoints\Ping();
+        $endpoint->setParams($bean->toArray(null, $bean::FILTER_NOT_NULL));
         return $this->request($endpoint);
     }
 
@@ -421,7 +422,14 @@ class Client
 
         $url = 'http://' . $this->config->getHost() . ':' . $this->config->getPort() . $endpoint->getUri();
 
-        empty($endpoint->getParams()) || $url .= '?' . http_build_query($endpoint->getParams());
+        if (!empty($endpoint->getParams())) {
+            $params = $endpoint->getParams();
+            foreach ($params as $key => $value) {
+                $value === true && $params[$key] = 'true';
+                $value === false && $params[$key] = 'false';
+            }
+            $url .= '?' . http_build_query($params);
+        }
 
         $httpClient = new HttpClient($url);
 
