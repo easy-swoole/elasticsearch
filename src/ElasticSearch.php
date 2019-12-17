@@ -27,4 +27,5 @@ class ElasticSearch
     {
         return new Client($this->config);
     }
+
 }

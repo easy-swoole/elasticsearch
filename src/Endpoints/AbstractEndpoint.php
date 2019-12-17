@@ -15,7 +15,8 @@ abstract class AbstractEndpoint
     protected $type;
     protected $id;
     protected $body;
-    protected $params;
+    protected $params = [];
+    protected $options = [];
 
 
     public function getIndex(): ?string
@@ -52,6 +53,10 @@ abstract class AbstractEndpoint
         return $this;
     }
 
+    public function getId()
+    {
+        return $this->id;
+    }
 
     public function setId($id)
     {
@@ -59,9 +64,9 @@ abstract class AbstractEndpoint
         return $this;
     }
 
-    public function getId()
+    public function getBody()
     {
-        return $this->id;
+        return empty($this->body) ? null : is_array($this->body) ? json_encode($this->body) : $this->body;
     }
 
     public function setBody($body)
@@ -69,19 +74,87 @@ abstract class AbstractEndpoint
         $this->body = $body;
     }
 
-    public function getBody()
+    public function getParams()
     {
-        return empty($this->body) ? null : json_encode($this->body);
+        return $this->params;
     }
 
     public function setParams(array $params)
     {
-        $this->params = $params;
+        //存在client参数
+        $this->extractOptions($params);
+        $params = $this->convertCustom($params);
+        $this->params = $this->convertArraysToStrings($params);
+        return $this;
     }
 
-    public function getParams()
+    public function getOptions()
     {
-        return $this->params;
+        return $this->options;
+    }
+
+    private function extractOptions(&$params)
+    {
+        // Extract out client options, then start transforming
+        if (isset($params['client']) === true) {
+            // Check if the opaqueId is populated and add the header
+            if (isset($params['client']['opaqueId']) === true) {
+                if (isset($params['client']['headers']) === false) {
+                    $params['client']['headers'] = [];
+                }
+                $params['client']['headers']['x-opaque-id'] = [trim($params['client']['opaqueId'])];
+                unset($params['client']['opaqueId']);
+            }
+
+            $this->options['client'] = $params['client'];
+            unset($params['client']);
+        }
+        $ignore = isset($this->options['client']['ignore']) ? $this->options['client']['ignore'] : null;
+        if (isset($ignore) === true) {
+            if (is_string($ignore)) {
+                $this->options['client']['ignore'] = explode(",", $ignore);
+            } elseif (is_array($ignore)) {
+                $this->options['client']['ignore'] = $ignore;
+            } else {
+                $this->options['client']['ignore'] = [$ignore];
+            }
+        }
+    }
+
+    private function convertCustom(array $params): array
+    {
+        if (isset($params['custom']) === true) {
+            foreach ($params['custom'] as $k => $v) {
+                $params[$k] = $v;
+            }
+            unset($params['custom']);
+        }
+
+        return $params;
+    }
+
+    private function convertArraysToStrings(array $params)
+    {
+        foreach ($params as $key => &$value) {
+            if (!($key === 'client' || $key == 'custom') && is_array($value) === true) {
+                if ($this->isNestedArray($value) !== true) {
+                    $value = implode(",", $value);
+                }
+            }
+        }
+
+        return $params;
+    }
+
+    private function isNestedArray(array $a): bool
+    {
+        foreach ($a as $v) {
+            if (is_array($v)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     abstract public function getMethod(): string;

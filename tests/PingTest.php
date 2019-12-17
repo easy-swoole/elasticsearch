@@ -4,11 +4,14 @@
 namespace EasySwoole\ElasticSearch\Tests;
 
 
+use EasySwoole\ElasticSearch\RequestBean\Ping;
+
 class PingTest extends Base
 {
-    function test(){
-        $result = $this->getElasticSearch()->client()->ping();
-        $json = json_decode($result->getBody(),true);
-        $this->assertIsArray($json);
+    function test()
+    {
+        $bean = new Ping();
+        $result = $this->getElasticSearch()->client()->ping($bean);
+        $this->assertEquals(200, $result->getStatusCode());
     }
 }

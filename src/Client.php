@@ -4,8 +4,6 @@
 namespace EasySwoole\ElasticSearch;
 
 use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
-use EasySwoole\ElasticSearch\Endpoints\Info;
-use EasySwoole\ElasticSearch\Endpoints\Ping;
 use EasySwoole\ElasticSearch\RequestBean\Bulk;
 use EasySwoole\ElasticSearch\RequestBean\ClearScroll;
 use EasySwoole\ElasticSearch\RequestBean\Count;
@@ -22,10 +20,12 @@ use EasySwoole\ElasticSearch\RequestBean\Get;
 use EasySwoole\ElasticSearch\RequestBean\GetScript;
 use EasySwoole\ElasticSearch\RequestBean\GetSource;
 use EasySwoole\ElasticSearch\RequestBean\Index;
+use EasySwoole\ElasticSearch\RequestBean\Info;
 use EasySwoole\ElasticSearch\RequestBean\Mget;
 use EasySwoole\ElasticSearch\RequestBean\Msearch;
 use EasySwoole\ElasticSearch\RequestBean\MsearchTemplate;
 use EasySwoole\ElasticSearch\RequestBean\MTermVectors;
+use EasySwoole\ElasticSearch\RequestBean\Ping;
 use EasySwoole\ElasticSearch\RequestBean\PutScript;
 use EasySwoole\ElasticSearch\RequestBean\RankEval;
 use EasySwoole\ElasticSearch\RequestBean\Reindex;
@@ -46,7 +46,9 @@ use EasySwoole\HttpClient\HttpClient;
 class Client
 {
 
+
     private $config;
+
 
     public function __construct(Config $config)
     {
@@ -104,7 +106,7 @@ class Client
         return $this->request($endpoint);
     }
 
-    //待测试
+
     public function deleteByQuery(DeleteByQuery $bean)
     {
         $endpoint = new Endpoints\DeleteByQuery();
@@ -220,9 +222,10 @@ class Client
     }
 
 
-    public function info()
+    public function info(Info $bean)
     {
-        $endpoint = new Info();
+        $endpoint = new Endpoints\Info();
+        $endpoint->setParams($bean->toArray(null, $bean::FILTER_NOT_NULL));
         return $this->request($endpoint);
     }
 
@@ -270,9 +273,10 @@ class Client
     }
 
 
-    public function ping()
+    public function ping(Ping $bean)
     {
-        $endpoint = new Ping();
+        $endpoint = new Endpoints\Ping();
+        $endpoint->setParams($bean->toArray(null, $bean::FILTER_NOT_NULL));
         return $this->request($endpoint);
     }
 
@@ -414,21 +418,40 @@ class Client
 
     public function request(AbstractEndpoint $endpoint): Response
     {
+        $options = $endpoint->getOptions();
+
         $url = 'http://' . $this->config->getHost() . ':' . $this->config->getPort() . $endpoint->getUri();
-        if ($endpoint->getParams()) {
-            $url .= '?' . http_build_query($endpoint->getParams());
+
+        if (!empty($endpoint->getParams())) {
+            $params = $endpoint->getParams();
+            foreach ($params as $key => $value) {
+                $value === true && $params[$key] = 'true';
+                $value === false && $params[$key] = 'false';
+            }
+            $url .= '?' . http_build_query($params);
         }
-        $headers = ['Content-Type' => HttpClient::CONTENT_TYPE_APPLICATION_JSON];
+
         $httpClient = new HttpClient($url);
+
+        $headers = ['Content-Type' => HttpClient::CONTENT_TYPE_APPLICATION_JSON];
+        if (isset($options['client']['headers'])) {
+            $headers = array_merge($headers, $options['client']['headers']);
+        }
+
+        isset($options['client']['setting']) && $httpClient->setClientSetting($options['client']['setting']);
+
         switch ($endpoint->getMethod()) {
             case HttpClient::METHOD_POST:
-                $response = $httpClient->post($endpoint->getBody(),$headers);
+                $response = $httpClient->post($endpoint->getBody(), $headers);
                 break;
             case HttpClient::METHOD_PUT:
                 $response = $httpClient->put($endpoint->getBody(), $headers);
                 break;
             case HttpClient::METHOD_DELETE:
                 $response = $httpClient->delete($headers);
+                break;
+            case HttpClient::METHOD_HEAD:
+                $response = $httpClient->head($headers);
                 break;
             default:
                 $response = $httpClient->get($headers);
