@@ -9,7 +9,32 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class PutSettings
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class PutSettings extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+        $index = $this->index ?? null;
+
+        if (isset($index)) {
+            return "/$index/_settings";
+        }
+        return "/_settings";
+    }
+
+    public function getMethod(): string
+    {
+        return 'PUT';
+    }
+
+    public function setBody($body): PutSettings
+    {
+        if (isset($body) !== true) {
+            return $this;
+        }
+        $this->body = $body;
+
+        return $this;
+    }
 }

@@ -9,7 +9,22 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class Exists
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class Exists extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+        $index = $this->index ?? null;
+
+        if (isset($index)) {
+            return "/$index";
+        }
+        throw new RuntimeException('Missing parameter for the endpoint indices.exists');
+    }
+
+    public function getMethod(): string
+    {
+        return 'HEAD';
+    }
 }

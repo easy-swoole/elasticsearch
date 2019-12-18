@@ -9,7 +9,22 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class ForceMerge
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class ForceMerge extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+        $index = $this->index ?? null;
+
+        if (isset($index)) {
+            return "/$index/_forcemerge";
+        }
+        return "/_forcemerge";
+    }
+
+    public function getMethod(): string
+    {
+        return 'POST';
+    }
 }

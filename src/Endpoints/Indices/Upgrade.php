@@ -9,7 +9,33 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class Upgrade
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class Upgrade extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+        $index = $this->index ?? null;
+
+        if (isset($index)) {
+            return "/$index/_upgrade";
+        }
+        return "/_upgrade";
+    }
+
+    public function getParamWhitelist(): array
+    {
+        return [
+            'allow_no_indices',
+            'expand_wildcards',
+            'ignore_unavailable',
+            'wait_for_completion',
+            'only_ancient_segments'
+        ];
+    }
+
+    public function getMethod(): string
+    {
+        return 'POST';
+    }
 }

@@ -9,7 +9,22 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class Delete
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class Delete extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+        $index = $this->index ?? null;
+
+        if (isset($index)) {
+            return "/$index";
+        }
+        throw new RuntimeException('Missing parameter for the endpoint indices.delete');
+    }
+
+    public function getMethod(): string
+    {
+        return 'DELETE';
+    }
 }

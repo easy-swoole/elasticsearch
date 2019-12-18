@@ -9,7 +9,22 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class Flush
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class Flush extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+        $index = $this->index ?? null;
+
+        if (isset($index)) {
+            return "/$index/_flush";
+        }
+        return "/_flush";
+    }
+
+    public function getMethod(): string
+    {
+        return 'POST';
+    }
 }

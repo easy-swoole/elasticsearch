@@ -9,7 +9,22 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class Recovery
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class Recovery extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+        $index = $this->index ?? null;
+
+        if (isset($index)) {
+            return "/$index/_recovery";
+        }
+        return "/_recovery";
+    }
+
+    public function getMethod(): string
+    {
+        return 'GET';
+    }
 }

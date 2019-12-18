@@ -9,7 +9,31 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class Refresh
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class Refresh extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+        $index = $this->index ?? null;
+
+        if (isset($index)) {
+            return "/$index/_refresh";
+        }
+        return "/_refresh";
+    }
+
+    public function getParamWhitelist(): array
+    {
+        return [
+            'ignore_unavailable',
+            'allow_no_indices',
+            'expand_wildcards'
+        ];
+    }
+
+    public function getMethod(): string
+    {
+        return 'POST';
+    }
 }

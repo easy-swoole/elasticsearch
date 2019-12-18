@@ -9,7 +9,36 @@
 namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
-class UpdateAliases
-{
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
 
+class UpdateAliases extends AbstractEndpoint
+{
+    public function getURI(): string
+    {
+
+        return "/_aliases";
+    }
+
+    public function getParamWhitelist(): array
+    {
+        return [
+            'timeout',
+            'master_timeout'
+        ];
+    }
+
+    public function getMethod(): string
+    {
+        return 'POST';
+    }
+
+    public function setBody($body): UpdateAliases
+    {
+        if (isset($body) !== true) {
+            return $this;
+        }
+        $this->body = $body;
+
+        return $this;
+    }
 }
