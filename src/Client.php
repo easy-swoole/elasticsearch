@@ -4,6 +4,7 @@
 namespace EasySwoole\ElasticSearch;
 
 use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
+use EasySwoole\ElasticSearch\Namespaces\IndicesNamespace;
 use EasySwoole\ElasticSearch\RequestBean\Bulk;
 use EasySwoole\ElasticSearch\RequestBean\ClearScroll;
 use EasySwoole\ElasticSearch\RequestBean\Count;
@@ -48,11 +49,18 @@ class Client
 
 
     private $config;
+    private $indices;
 
 
     public function __construct(Config $config)
     {
         $this->config = $config;
+        $this->indices = new IndicesNamespace($this);
+    }
+
+    public function indices(): IndicesNamespace
+    {
+        return $this->indices;
     }
 
     //待测试

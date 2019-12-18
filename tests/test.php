@@ -8,9 +8,9 @@
 require_once 'vendor/autoload.php';
 
 go(function (){
-    $bean=new \EasySwoole\ElasticSearch\RequestBean\ExistsSource();
-    $bean->setIndex('my-index-1576487468');
-    $bean->setId('my-id-1576487468');
+    $bean=new \EasySwoole\ElasticSearch\RequestBean\Indices\Analyze();
+    $bean->setIndex('my-index');
+    $bean->set('my-id-1576487468');
     $es=new \EasySwoole\ElasticSearch\ElasticSearch(new \EasySwoole\ElasticSearch\Config());
     $response=$es->client()->existsSource($bean);
     var_dump($response);
