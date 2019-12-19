@@ -19,14 +19,6 @@ class UpdateAliases extends AbstractEndpoint
         return "/_aliases";
     }
 
-    public function getParamWhitelist(): array
-    {
-        return [
-            'timeout',
-            'master_timeout'
-        ];
-    }
-
     public function getMethod(): string
     {
         return 'POST';

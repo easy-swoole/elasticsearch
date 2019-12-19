@@ -23,16 +23,6 @@ class Segments extends AbstractEndpoint
         return "/_segments";
     }
 
-    public function getParamWhitelist(): array
-    {
-        return [
-            'ignore_unavailable',
-            'allow_no_indices',
-            'expand_wildcards',
-            'verbose'
-        ];
-    }
-
     public function getMethod(): string
     {
         return 'GET';

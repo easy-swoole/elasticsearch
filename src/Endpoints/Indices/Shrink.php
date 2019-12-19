@@ -27,16 +27,6 @@ class Shrink extends AbstractEndpoint
         throw new RuntimeException('Missing parameter for the endpoint indices.shrink');
     }
 
-    public function getParamWhitelist(): array
-    {
-        return [
-            'copy_settings',
-            'timeout',
-            'master_timeout',
-            'wait_for_active_shards'
-        ];
-    }
-
     public function getMethod(): string
     {
         return 'PUT';

@@ -33,17 +33,6 @@ class Rollover extends AbstractEndpoint
         return "/$alias/_rollover";
     }
 
-    public function getParamWhitelist(): array
-    {
-        return [
-            'include_type_name',
-            'timeout',
-            'dry_run',
-            'master_timeout',
-            'wait_for_active_shards'
-        ];
-    }
-
     public function getMethod(): string
     {
         return 'POST';

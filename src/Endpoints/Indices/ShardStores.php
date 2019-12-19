@@ -23,16 +23,6 @@ class ShardStores extends AbstractEndpoint
         return "/_shard_stores";
     }
 
-    public function getParamWhitelist(): array
-    {
-        return [
-            'status',
-            'ignore_unavailable',
-            'allow_no_indices',
-            'expand_wildcards'
-        ];
-    }
-
     public function getMethod(): string
     {
         return 'GET';
