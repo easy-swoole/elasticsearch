@@ -4,7 +4,13 @@
 namespace EasySwoole\ElasticSearch;
 
 use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
+use EasySwoole\ElasticSearch\Namespaces\CatNamespace;
+use EasySwoole\ElasticSearch\Namespaces\ClusterNamespace;
 use EasySwoole\ElasticSearch\Namespaces\IndicesNamespace;
+use EasySwoole\ElasticSearch\Namespaces\IngestNamespace;
+use EasySwoole\ElasticSearch\Namespaces\NodesNamespace;
+use EasySwoole\ElasticSearch\Namespaces\SnapshotNamespace;
+use EasySwoole\ElasticSearch\Namespaces\TasksNamespace;
 use EasySwoole\ElasticSearch\RequestBean\Bulk;
 use EasySwoole\ElasticSearch\RequestBean\ClearScroll;
 use EasySwoole\ElasticSearch\RequestBean\Count;
@@ -46,21 +52,62 @@ use EasySwoole\HttpClient\HttpClient;
 
 class Client
 {
-
-
     private $config;
+    private $cat;
+    private $cluster;
     private $indices;
+    private $ingest;
+    private $nodes;
+    private $snapshot;
+    private $tasks;
 
 
     public function __construct(Config $config)
     {
         $this->config = $config;
+        $this->cat = new CatNamespace($this);
+        $this->cluster = new ClusterNamespace($this);
         $this->indices = new IndicesNamespace($this);
+        $this->ingest = new IngestNamespace($this);
+        $this->nodes = new NodesNamespace($this);
+        $this->snapshot = new SnapshotNamespace($this);
+        $this->tasks = new TasksNamespace($this);
+    }
+
+    public function cat(): CatNamespace
+    {
+        return $this->cat;
+    }
+
+    public function cluster(): ClusterNamespace
+    {
+        return $this->cluster;
     }
 
     public function indices(): IndicesNamespace
     {
         return $this->indices;
+    }
+
+    public function ingest(): IngestNamespace
+    {
+        return $this->ingest;
+    }
+
+
+    public function nodes(): NodesNamespace
+    {
+        return $this->nodes;
+    }
+
+    public function snapshot(): SnapshotNamespace
+    {
+        return $this->snapshot;
+    }
+
+    public function tasks(): TasksNamespace
+    {
+        return $this->tasks;
     }
 
     //待测试
