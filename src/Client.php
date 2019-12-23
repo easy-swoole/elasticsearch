@@ -493,7 +493,7 @@ class Client
             $headers = array_merge($headers, $options['client']['headers']);
         }
 
-        isset($options['client']['setting']) && $httpClient->setClientSetting($options['client']['setting']);
+        isset($options['client']['setting']) && $httpClient->setClientSettings($options['client']['setting']);
 
         switch ($endpoint->getMethod()) {
             case HttpClient::METHOD_POST:
