@@ -16,13 +16,12 @@ class ExistsAliasTest extends Base
 {
     public function test()
     {
-        $this->assertEquals(1,1);
-//        $bean = new ExistsAlias();
-//        $bean->setIndex('my-index');
-//        $bean->setLocal(true);
-//        $bean->setName('ads');
-//        $response = $this->getElasticSearch()->client()->indices()->existsAlias($bean);
-//        var_dump($response->getBody());
-//        $this->assertEquals(200, $response->getStatusCode());
+        //$this->assertEquals(1,1);
+        $bean = new ExistsAlias();
+        $bean->setIndex('my-index');
+        $bean->setLocal(true);
+        $bean->setName('my-index-alias');
+        $response = $this->getElasticSearch()->client()->indices()->existsAlias($bean);
+        $this->assertEquals(200, $response->getStatusCode());
     }
 }

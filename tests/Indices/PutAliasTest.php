@@ -26,7 +26,7 @@ class PutAliasTest extends Base
         ]);
         $response = $this->getElasticSearch()->client()->indices()->putAlias($bean)->getBody();
         $response = json_decode($response, true);
-        print_r($response);
+        //print_r($response);
         $this->assertArrayNotHasKey('errors', $response);
     }
 }
