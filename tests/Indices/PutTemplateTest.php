@@ -18,13 +18,25 @@ class PutTemplateTest extends Base
     {
         $bean = new PutTemplate();
         $bean->setName('my-template');
+        $bean->setIncludeTypeName(true);
         $bean->setBody([
-            'template'=>'my-test-template',
-            ''
+            'template' => 'my-test-template',
+            'order' => 0,
+            'mappings' => [
+                '_doc' => [
+                    '_source' => ['enabled' => false],
+                    'properties' => [
+                        '@timestamp' => [
+                            'type' => 'date',
+                            "format" => "yyyy-MM-dd HH:mm:ss"
+                        ]
+                    ]
+                ]
+            ]
         ]);
         $response = $this->getElasticSearch()->client()->indices()->putTemplate($bean)->getBody();
         $response = json_decode($response, true);
-        print_r($response);
+        //print_r($response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }
