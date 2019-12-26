@@ -9,7 +9,9 @@
 namespace EasySwoole\ElasticSearch\RequestBean\Indices;
 
 
-class Upgrade
+use EasySwoole\ElasticSearch\RequestBean\AbstractBean;
+
+class Upgrade extends AbstractBean
 {
     protected $index;
     protected $allow_no_indices;
