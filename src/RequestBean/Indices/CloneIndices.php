@@ -11,7 +11,7 @@ namespace EasySwoole\ElasticSearch\RequestBean\Indices;
 
 use EasySwoole\ElasticSearch\RequestBean\AbstractBean;
 
-class CloneBean extends AbstractBean
+class CloneIndices extends AbstractBean
 {
     protected $index;
     protected $target;

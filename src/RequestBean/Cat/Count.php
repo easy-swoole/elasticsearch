@@ -9,7 +9,9 @@
 namespace EasySwoole\ElasticSearch\RequestBean\Cat;
 
 
-class Count
+use EasySwoole\ElasticSearch\RequestBean\AbstractBean;
+
+class Count extends AbstractBean
 {
     protected $index;
     protected $format;

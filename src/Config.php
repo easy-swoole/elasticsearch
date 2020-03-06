@@ -8,8 +8,26 @@ use EasySwoole\Spl\SplBean;
 
 class Config extends SplBean
 {
+    protected $scheme = 'http';
     protected $host = '127.0.0.1';
     protected $port = 9200;
+
+    /**
+     * @return string
+     */
+    public function getScheme(): string
+    {
+        return $this->scheme;
+    }
+
+    /**
+     * @param string $scheme
+     */
+    public function setScheme(string $scheme): void
+    {
+        $this->scheme = $scheme;
+    }
+
 
     /**
      * @return mixed
