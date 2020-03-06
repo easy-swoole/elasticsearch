@@ -10,6 +10,8 @@ namespace EasySwoole\ElasticSearch\Namespaces;
 
 
 use EasySwoole\ElasticSearch\Client;
+use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
+use EasySwoole\HttpClient\Bean\Response;
 
 abstract class AbstractNamespace
 {
@@ -23,5 +25,10 @@ abstract class AbstractNamespace
     public function client(): Client
     {
         return $this->client;
+    }
+
+    protected function request(AbstractEndpoint $endpoint): Response
+    {
+        return $this->client()->request($endpoint);
     }
 }

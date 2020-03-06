@@ -23,15 +23,6 @@ class Refresh extends AbstractEndpoint
         return "/_refresh";
     }
 
-    public function getParamWhitelist(): array
-    {
-        return [
-            'ignore_unavailable',
-            'allow_no_indices',
-            'expand_wildcards'
-        ];
-    }
-
     public function getMethod(): string
     {
         return 'POST';

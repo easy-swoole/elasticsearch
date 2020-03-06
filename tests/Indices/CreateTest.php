@@ -18,7 +18,7 @@ class CreateTest extends Base
     {
         $bean = new Create();
         $time = time();
-        $bean->setIndex('my-index-' . $time);
+        $bean->setIndex('my-indices-index-' . $time);
         $bean->setBody([
             'settings' => [
                 'index' => [
@@ -29,7 +29,7 @@ class CreateTest extends Base
         ]);
         $response = $this->getElasticSearch()->client()->indices()->create($bean)->getBody();
         $response = json_decode($response, true);
-        $this->assertIsArray($response);
+        //print_r($response);
         $this->assertArrayNotHasKey('errors', $response);
     }
 }

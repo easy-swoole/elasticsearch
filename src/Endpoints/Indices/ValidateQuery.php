@@ -30,24 +30,6 @@ class ValidateQuery extends AbstractEndpoint
         return "/_validate/query";
     }
 
-    public function getParamWhitelist(): array
-    {
-        return [
-            'explain',
-            'ignore_unavailable',
-            'allow_no_indices',
-            'expand_wildcards',
-            'q',
-            'analyzer',
-            'analyze_wildcard',
-            'default_operator',
-            'df',
-            'lenient',
-            'rewrite',
-            'all_shards'
-        ];
-    }
-
     public function getMethod(): string
     {
         return isset($this->body) ? 'POST' : 'GET';

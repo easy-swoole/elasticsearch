@@ -32,22 +32,6 @@ class Stats extends AbstractEndpoint
         return "/_stats";
     }
 
-    public function getParamWhitelist(): array
-    {
-        return [
-            'completion_fields',
-            'fielddata_fields',
-            'fields',
-            'groups',
-            'level',
-            'types',
-            'include_segment_file_sizes',
-            'include_unloaded_segments',
-            'expand_wildcards',
-            'forbid_closed_indices'
-        ];
-    }
-
     public function getMethod(): string
     {
         return 'GET';
