@@ -428,7 +428,7 @@ class Client
     {
         $options = $endpoint->getOptions();
 
-        $url = 'http://' . $this->config->getHost() . ':' . $this->config->getPort() . $endpoint->getUri();
+        $url = $this->config->getScheme() . '://' . $this->config->getHost() . ':' . $this->config->getPort() . $endpoint->getUri();
 
         if (!empty($endpoint->getParams())) {
             $params = $endpoint->getParams();
