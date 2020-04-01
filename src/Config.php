@@ -11,6 +11,8 @@ class Config extends SplBean
     protected $scheme = 'http';
     protected $host = '127.0.0.1';
     protected $port = 9200;
+    protected $username = '';
+    protected $password = '';
 
     /**
      * @return string
@@ -60,6 +62,39 @@ class Config extends SplBean
     {
         $this->port = $port;
     }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param $username
+     */
+    public function setUsername($username): void
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param $password
+     */
+    public function setPassword($password): void
+    {
+        $this->password = $password;
+    }
+
 
 
 }
