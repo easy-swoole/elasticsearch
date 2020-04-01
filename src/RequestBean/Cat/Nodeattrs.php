@@ -11,7 +11,7 @@ namespace EasySwoole\ElasticSearch\RequestBean\Cat;
 
 use EasySwoole\ElasticSearch\RequestBean\AbstractBean;
 
-class Nodeattrs extends AbstractBean
+class NodeAttrs extends AbstractBean
 {
     protected $format;
     protected $local;

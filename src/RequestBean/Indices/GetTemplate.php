@@ -13,72 +13,90 @@ use EasySwoole\ElasticSearch\RequestBean\AbstractBean;
 
 class GetTemplate extends AbstractBean
 {
-    protected $index;
-    protected $ignore_unavailable;
-    protected $allow_no_indices;
-    protected $expand_wildcards;
+    protected $name;
+    protected $include_type_name;
+    protected $flat_settings;
+    protected $master_timeout;
+    protected $local;
 
     /**
      * @return mixed
      */
-    public function getIndex()
+    public function getName()
     {
-        return $this->index;
+        return $this->name;
     }
 
     /**
-     * @param mixed $index
+     * @param mixed $name
      */
-    public function setIndex($index): void
+    public function setName($name): void
     {
-        $this->index = $index;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIgnoreUnavailable()
-    {
-        return $this->ignore_unavailable;
-    }
-
-    /**
-     * @param mixed $ignore_unavailable
-     */
-    public function setIgnoreUnavailable($ignore_unavailable): void
-    {
-        $this->ignore_unavailable = $ignore_unavailable;
+        $this->name = $name;
     }
 
     /**
      * @return mixed
      */
-    public function getAllowNoIndices()
+    public function getIncludeTypeName()
     {
-        return $this->allow_no_indices;
+        return $this->include_type_name;
     }
 
     /**
-     * @param mixed $allow_no_indices
+     * @param mixed $include_type_name
      */
-    public function setAllowNoIndices($allow_no_indices): void
+    public function setIncludeTypeName($include_type_name): void
     {
-        $this->allow_no_indices = $allow_no_indices;
+        $this->include_type_name = $include_type_name;
     }
 
     /**
      * @return mixed
      */
-    public function getExpandWildcards()
+    public function getFlatSettings()
     {
-        return $this->expand_wildcards;
+        return $this->flat_settings;
     }
 
     /**
-     * @param mixed $expand_wildcards
+     * @param mixed $flat_settings
      */
-    public function setExpandWildcards($expand_wildcards): void
+    public function setFlatSettings($flat_settings): void
     {
-        $this->expand_wildcards = $expand_wildcards;
+        $this->flat_settings = $flat_settings;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMasterTimeout()
+    {
+        return $this->master_timeout;
+    }
+
+    /**
+     * @param mixed $master_timeout
+     */
+    public function setMasterTimeout($master_timeout): void
+    {
+        $this->master_timeout = $master_timeout;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLocal()
+    {
+        return $this->local;
+    }
+
+    /**
+     * @param mixed $local
+     */
+    public function setLocal($local): void
+    {
+        $this->local = $local;
+    }
+
 }

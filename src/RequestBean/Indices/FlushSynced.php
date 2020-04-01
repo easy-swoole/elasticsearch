@@ -9,7 +9,9 @@
 namespace EasySwoole\ElasticSearch\RequestBean\Indices;
 
 
-class FlushSynced
+use EasySwoole\ElasticSearch\RequestBean\AbstractBean;
+
+class FlushSynced extends AbstractBean
 {
     protected $index;
     protected $ignore_unavailable;

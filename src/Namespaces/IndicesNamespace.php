@@ -10,7 +10,7 @@ namespace EasySwoole\ElasticSearch\Namespaces;
 
 use EasySwoole\ElasticSearch\RequestBean\Indices\Analyze;
 use EasySwoole\ElasticSearch\RequestBean\Indices\ClearCache;
-use EasySwoole\ElasticSearch\RequestBean\Indices\CloneBean;
+use EasySwoole\ElasticSearch\RequestBean\Indices\CloneIndices;
 use EasySwoole\ElasticSearch\RequestBean\Indices\Close;
 use EasySwoole\ElasticSearch\RequestBean\Indices\Create;
 use EasySwoole\ElasticSearch\Endpoints\Indices;
@@ -67,7 +67,7 @@ class IndicesNamespace extends AbstractNamespace
         return $this->request($endpoint);
     }
 
-    public function clone(CloneBean $bean)
+    public function clone(CloneIndices $bean)
     {
         $endpoint = new Indices\CloneIndices();
         $endpoint->setIndex($bean->getIndex());

@@ -17,7 +17,7 @@ use EasySwoole\ElasticSearch\RequestBean\Cat\Health;
 use EasySwoole\ElasticSearch\RequestBean\Cat\Help;
 use EasySwoole\ElasticSearch\RequestBean\Cat\Indices;
 use EasySwoole\ElasticSearch\RequestBean\Cat\Master;
-use EasySwoole\ElasticSearch\RequestBean\Cat\Nodeattrs;
+use EasySwoole\ElasticSearch\RequestBean\Cat\NodeAttrs;
 use EasySwoole\ElasticSearch\RequestBean\Cat\Nodes;
 use EasySwoole\ElasticSearch\RequestBean\Cat\PendingTasks;
 use EasySwoole\ElasticSearch\RequestBean\Cat\Plugins;
@@ -94,7 +94,7 @@ class CatNamespace extends AbstractNamespace
         return $this->request($endpoint);
     }
 
-    public function nodeattrs(Nodeattrs $bean)
+    public function nodeattrs(NodeAttrs $bean)
     {
         $endpoint = new Cat\Nodeattrs();
         $endpoint->setParams($bean->toArray(null, $bean::FILTER_NOT_NULL));

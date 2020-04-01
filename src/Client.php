@@ -475,7 +475,7 @@ class Client
     {
         $options = $endpoint->getOptions();
 
-        $url = 'http://' . $this->config->getHost() . ':' . $this->config->getPort() . $endpoint->getUri();
+        $url = $this->config->getScheme() . '://' . $this->config->getHost() . ':' . $this->config->getPort() . $endpoint->getUri();
 
         if (!empty($endpoint->getParams())) {
             $params = $endpoint->getParams();
@@ -493,7 +493,7 @@ class Client
             $headers = array_merge($headers, $options['client']['headers']);
         }
 
-        isset($options['client']['setting']) && $httpClient->setClientSetting($options['client']['setting']);
+        isset($options['client']['setting']) && $httpClient->setClientSettings($options['client']['setting']);
 
         switch ($endpoint->getMethod()) {
             case HttpClient::METHOD_POST:

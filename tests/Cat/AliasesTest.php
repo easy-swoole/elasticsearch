@@ -20,9 +20,6 @@ class AliasesTest extends Base
         $bean->setHelp(true);
         //$bean->setV(true);
         $response = $this->getElasticSearch()->client()->cat()->aliases($bean)->getBody();
-        var_dump($response);
-        //$response = json_decode($response, true);
-        //print_r($response);
-        $this->assertArrayNotHasKey('errors', $response);
+        $this->assertIsString($response);
     }
 }
