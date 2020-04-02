@@ -488,6 +488,10 @@ class Client
 
         $httpClient = new HttpClient($url);
 
+        if ($this->config->getUsername() && $this->config->getPassword()){
+            $httpClient->setHeader('authorization','Basic ' . base64_encode($this->config->getUsername().':'.$this->config->getPassword()), false);
+        }
+
         $headers = ['Content-Type' => HttpClient::CONTENT_TYPE_APPLICATION_JSON];
         if (isset($options['client']['headers'])) {
             $headers = array_merge($headers, $options['client']['headers']);
