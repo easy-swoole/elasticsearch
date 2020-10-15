@@ -10,6 +10,7 @@ namespace EasySwoole\ElasticSearch\Endpoints\Indices;
 
 
 use EasySwoole\ElasticSearch\Endpoints\AbstractEndpoint;
+use EasySwoole\ElasticSearch\Exception\RuntimeException;
 
 class Delete extends AbstractEndpoint
 {
