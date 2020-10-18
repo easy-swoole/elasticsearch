@@ -12,12 +12,13 @@ class CreateTest extends Base
     {
         $bean = new Create();
         $time = time();
-        $bean->setIndex('my-index-'.$time);
+        $bean->setIndex('my-index-' . $time);
         $bean->setType('my-type');
-        $bean->setId('my-id-'.$time);
-        $bean->setBody(['test-field' => $time]);
+        $bean->setId('my-id-' . $time);
+        $bean->setBody(['test-field' => 'abd']);
         $response = $this->getElasticSearch()->client()->create($bean)->getBody();
-        $response = json_decode($response,true);
-        $this->assertEquals('created',$response['result']);
+        $response = json_decode($response, true);
+        var_dump('------------create', $response);
+        $this->assertEquals('created', $response['result']);
     }
 }
