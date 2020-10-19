@@ -21,12 +21,12 @@ class PutSettingsTest extends Base
         $bean->setBody([
             'settings' => [
                 'index.refresh_interval' => '2s',
-                //"index.blocks.write" => false
+//                "index.blocks.write" => true
             ]
         ]);
         $response = $this->getElasticSearch()->client()->indices()->putSettings($bean)->getBody();
         $response = json_decode($response, true);
-        //print_r($response);
+        var_dump('----------put settings', $response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }

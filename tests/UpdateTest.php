@@ -10,6 +10,7 @@ namespace EasySwoole\ElasticSearch\Tests;
 
 
 use EasySwoole\ElasticSearch\RequestBean\Update;
+
 //参考文档
 //https://www.elastic.co/guide/cn/elasticsearch/guide/current/partial-updates.html
 class UpdateTest extends Base
@@ -27,6 +28,7 @@ class UpdateTest extends Base
         ]);
         $response = $this->getElasticSearch()->client()->update($bean)->getBody();
         $response = json_decode($response, true);
+        var_dump('--------update', $response);
         $this->assertIsArray($response);
         $this->assertArrayHasKey('_shards', $response);
     }

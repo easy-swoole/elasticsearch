@@ -23,6 +23,7 @@ class IndexTest extends Base
         $bean->setBody(['test-field' => '测试' . $time]);
         $response = $this->getElasticSearch()->client()->index($bean)->getBody();
         $response = json_decode($response, true);
+        var_dump('--------index', $response);
         $this->assertEquals('created', $response['result']);
     }
 }

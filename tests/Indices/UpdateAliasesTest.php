@@ -9,6 +9,7 @@
 namespace EasySwoole\ElasticSearch\Tests\Indices;
 
 
+use EasySwoole\ElasticSearch\RequestBean\Create;
 use EasySwoole\ElasticSearch\RequestBean\Indices\UpdateAliases;
 use EasySwoole\ElasticSearch\Tests\Base;
 
@@ -16,6 +17,14 @@ class UpdateAliasesTest extends Base
 {
     public function test()
     {
+
+        $bean = new Create();
+        $bean->setIndex('my-index-1');
+        $bean->setType('my-type');
+        $bean->setId('my-id-1');
+        $bean->setBody(['test-field' => 'abd']);
+        $this->getElasticSearch()->client()->create($bean)->getBody();
+
         $bean = new UpdateAliases();
         $bean->setBody(
             [
@@ -26,7 +35,7 @@ class UpdateAliasesTest extends Base
         );
         $response = $this->getElasticSearch()->client()->indices()->updateAliases($bean)->getBody();
         $response = json_decode($response, true);
-        //print_r($response);
+        var_dump('-----------update alias', $response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }
