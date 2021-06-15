@@ -10,8 +10,8 @@ php vendor/bin/co-phpunit tests
 
 ## 官方Docker
 ```
-docker pull elasticsearch:7.5.0
-docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.5.0
+docker pull elasticsearch:7.10.1
+docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" elasticsearch:7.10.1
 ```
 
 
