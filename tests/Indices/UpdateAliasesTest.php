@@ -35,7 +35,6 @@ class UpdateAliasesTest extends Base
         );
         $response = $this->getElasticSearch()->client()->indices()->updateAliases($bean)->getBody();
         $response = json_decode($response, true);
-        var_dump('-----------update alias', $response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }

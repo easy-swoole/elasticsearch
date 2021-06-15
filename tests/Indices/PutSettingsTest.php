@@ -26,7 +26,6 @@ class PutSettingsTest extends Base
         ]);
         $response = $this->getElasticSearch()->client()->indices()->putSettings($bean)->getBody();
         $response = json_decode($response, true);
-        var_dump('----------put settings', $response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }

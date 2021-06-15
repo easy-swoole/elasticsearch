@@ -28,7 +28,6 @@ class UpdateTest extends Base
         ]);
         $response = $this->getElasticSearch()->client()->update($bean)->getBody();
         $response = json_decode($response, true);
-        var_dump('--------update', $response);
         $this->assertIsArray($response);
         $this->assertArrayHasKey('_shards', $response);
     }

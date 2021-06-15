@@ -20,7 +20,7 @@ class SnapshotsTest extends Base
 
         $bean->setHelp(true);
         $response = $this->getElasticSearch()->client()->cat()->snapshots($bean)->getBody();
-        //var_dump($response);
+        
         $this->assertIsString($response);
     }
 }

@@ -20,7 +20,6 @@ class MasterTest extends Base
         $bean->setFormat(true);
         $bean->setLocal(true);
         $response = $this->getElasticSearch()->client()->cat()->master($bean)->getBody();
-        //var_dump($response);
         $this->assertIsString($response);
     }
 }

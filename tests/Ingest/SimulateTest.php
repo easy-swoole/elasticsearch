@@ -28,8 +28,6 @@ class SimulateTest extends Base
         ]);
         $response = $this->getElasticSearch()->client()->ingest()->simulate($bean)->getBody();
         $response = json_decode($response, true);
-        var_dump('-----------simulate');
-        var_dump($response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }

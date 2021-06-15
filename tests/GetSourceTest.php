@@ -20,7 +20,6 @@ class GetSourceTest extends Base
         $bean->setId('my-id');
         $response = $this->getElasticSearch()->client()->getSource($bean)->getBody();
         $response = json_decode($response, true);
-        var_dump('--------get source', $response);
         $this->assertEquals('abd', $response['test-field']);
     }
 }

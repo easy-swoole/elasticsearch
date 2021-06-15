@@ -16,7 +16,6 @@ class CountTest extends Base
         $bean = new \EasySwoole\ElasticSearch\RequestBean\Count();
         $response = $this->getElasticSearch()->client()->count($bean)->getBody();
         $response = json_decode($response, true);
-        print_r($response);
         $this->assertArrayHasKey('count', $response);
     }
 }

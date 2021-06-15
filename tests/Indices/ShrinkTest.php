@@ -33,7 +33,6 @@ class ShrinkTest extends Base
                 "index.blocks.write" => true
             ]]);
         $response = $this->getElasticSearch()->client()->indices()->create($bean)->getBody();
-        var_dump($response);
         $this->assertArrayNotHasKey('error', json_decode($response, true));
 
         $bean = new Shrink();
@@ -48,8 +47,6 @@ class ShrinkTest extends Base
         ]);
         $response = $this->getElasticSearch()->client()->indices()->shrink($bean)->getBody();
         $response = json_decode($response, true);
-        var_dump('------------------shrink test');
-        var_dump($response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }

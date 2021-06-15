@@ -21,7 +21,7 @@ class PendingTasksTest extends Base
 //        $bean->setFormat(true);
         $bean->setHelp(true);
         $response = $this->getElasticSearch()->client()->cat()->pendingTasks($bean)->getBody();
-        //var_dump($response);
+        
         $this->assertIsString($response);
     }
 }

@@ -20,7 +20,7 @@ class RecoveryTest extends Base
         $bean->setIndex('my-index');
         $bean->setFormat(true);
         $response = $this->getElasticSearch()->client()->cat()->recovery($bean)->getBody();
-        //var_dump($response);
+        
         $this->assertIsString($response);
     }
 }

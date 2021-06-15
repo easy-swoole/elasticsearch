@@ -33,7 +33,6 @@ class SplitTest extends Base
                 "index.blocks.write" => true
             ]]);
         $response = $this->getElasticSearch()->client()->indices()->create($bean)->getBody();
-        var_dump($response);
         $this->assertArrayNotHasKey('error', json_decode($response, true));
 
         $bean = new Split();
@@ -49,8 +48,6 @@ class SplitTest extends Base
 
         $response = $this->getElasticSearch()->client()->indices()->split($bean)->getBody();
         $response = json_decode($response, true);
-        var_dump('--------------split');
-        var_dump($response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }

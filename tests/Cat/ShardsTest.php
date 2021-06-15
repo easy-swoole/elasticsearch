@@ -19,7 +19,6 @@ class ShardsTest extends Base
         $bean = new Shards();
         $bean->setIndex('my-index');
         $response = $this->getElasticSearch()->client()->cat()->shards($bean)->getBody();
-        //var_dump($response);
         $this->assertIsString($response);
     }
 }

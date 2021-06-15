@@ -18,7 +18,6 @@ class CreateTest extends Base
         $bean->setBody(['test-field' => 'abd']);
         $response = $this->getElasticSearch()->client()->create($bean)->getBody();
         $response = json_decode($response, true);
-        var_dump('------------create', $response);
         $this->assertEquals('created', $response['result']);
     }
 }

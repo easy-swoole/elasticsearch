@@ -20,7 +20,6 @@ class NodeAttrsTest extends Base
         $bean->setFormat(true);
         $bean->setLocal(true);
         $response = $this->getElasticSearch()->client()->cat()->nodeattrs($bean)->getBody();
-        //var_dump($response);
         $this->assertIsString($response);
     }
 }

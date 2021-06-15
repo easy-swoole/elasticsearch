@@ -18,7 +18,6 @@ class TasksTest extends Base
         $bean = new Tasks();
         $bean->setHelp(true);
         $response = $this->getElasticSearch()->client()->cat()->tasks($bean)->getBody();
-        //var_dump($response);
         $this->assertIsString($response);
     }
 }

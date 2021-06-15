@@ -19,7 +19,6 @@ class TemplatesTest extends Base
         $bean = new Templates();
         $bean->setHelp(true);
         $response = $this->getElasticSearch()->client()->cat()->templates($bean)->getBody();
-        //var_dump($response);
         $this->assertIsString($response);
     }
 }

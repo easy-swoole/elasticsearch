@@ -19,7 +19,6 @@ class ThreadPoolTest extends Base
         $bean = new ThreadPool();
         $bean->setHelp(true);
         $response = $this->getElasticSearch()->client()->cat()->threadPool($bean)->getBody();
-        //var_dump($response);
         $this->assertIsString($response);
     }
 }

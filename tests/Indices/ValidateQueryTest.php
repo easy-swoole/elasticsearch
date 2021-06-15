@@ -27,7 +27,6 @@ class ValidateQueryTest extends Base
         );
         $response = $this->getElasticSearch()->client()->indices()->validateQuery($bean)->getBody();
         $response = json_decode($response, true);
-        print_r($response);
         $this->assertArrayNotHasKey('error', $response);
     }
 }
