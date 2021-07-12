@@ -488,6 +488,10 @@ class Client
 
         $httpClient = new HttpClient($url);
 
+        if ($this->config->getScheme() === 'https') {
+            $httpClient->setEnableSSL(true);
+        }
+
         if ($this->config->getUsername() && $this->config->getPassword()){
             $httpClient->setHeader('authorization','Basic ' . base64_encode($this->config->getUsername().':'.$this->config->getPassword()), false);
         }
