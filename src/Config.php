@@ -13,6 +13,8 @@ class Config extends SplBean
     protected $port = 9200;
     protected $username = '';
     protected $password = '';
+    protected $sslCertFilePath = '';
+    protected $sslKeyFilePath = '';
 
     /**
      * @return string
@@ -95,6 +97,23 @@ class Config extends SplBean
         $this->password = $password;
     }
 
+    public function getSslCertFilePath(): string
+    {
+        return $this->sslCertFilePath;
+    }
 
+    public function setSslCertFilePath(string $sslCertFilePath): void
+    {
+        $this->sslCertFilePath = $sslCertFilePath;
+    }
 
+    public function getSslKeyFilePath(): string
+    {
+        return $this->sslKeyFilePath;
+    }
+
+    public function setSslKeyFilePath(string $sslKeyFilePath): void
+    {
+        $this->sslKeyFilePath = $sslKeyFilePath;
+    }
 }
