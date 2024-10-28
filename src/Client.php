@@ -490,6 +490,12 @@ class Client
 
         if ($this->config->getScheme() === 'https') {
             $httpClient->setEnableSSL(true);
+            if (!empty($this->config->getSslCertFilePath())) {
+                $httpClient->setSslCertFile($this->config->getSslCertFilePath());
+            }
+            if (!empty($this->config->getSslKeyFilePath())) {
+                $httpClient->setSslKeyFile($this->config->getSslKeyFilePath());
+            }
         }
 
         if ($this->config->getUsername() && $this->config->getPassword()){
